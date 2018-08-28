@@ -20,6 +20,7 @@ int main(int argc, char const *argv[]) {
   Water pump ON/OFF
   LED lights
   Drain pump
+  Fan for temp/humidity
   */
 
   //Water pump timing: ON 4 mins. OFF 6 mins.
@@ -58,8 +59,21 @@ for (;;) { //start of inf. loop
   //Safety measure for water level
   int waterLevelNumber = 22;
   pinMode (waterLevelNumber, INPUT); //level should be 1 (true)
-  if (digitalWrite (waterLevelNumber == 0)) {
+  if (digitalRead (waterLevelNumber == 0)) {
     digitalWrite(pumpNumber, LOW); //turns off pump
+  }
+
+  int temperatureNumber = 24;
+  pinMode(temperatureNumber, INPUT);
+  temperature = digitalRead(temperatureNumber);
+
+  int fanNumber = 23;
+  pinMode(fanNumber, OUTPUT);
+  //temperature = 1 means it is too hot
+  if (temperature = 1) {
+    digitalWrite(fanNumber, HIGH);
+  } else {
+    digitalWrite(fanNumber, LOW);
   }
 
   //Program delay of one minute
@@ -67,7 +81,9 @@ for (;;) { //start of inf. loop
 
 } //end of infinite loop
   //wiringPi cleanup
-
+  pinMode(pumpNumber, INPUT);
+  pinMode(ledNumber, INPUT);
+  pinMode(fanNumber, INPUT);
 
   return EXIT_SUCCESS;
 }
